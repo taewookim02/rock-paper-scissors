@@ -136,7 +136,7 @@ const playGame = function (buttonClick) {
   }
 };
 
-// playGame();
+// Update text content
 const userWin = function (userCount, computerCount) {
   textElement.textContent = "win win win win win win win win win win win win ";
   textColorElement.setAttribute("fill", "#00FF00");
@@ -147,7 +147,6 @@ const computerWin = function (userCount, computerCount) {
   textColorElement.setAttribute("fill", "#ff0000");
   displayScore(userCount, computerCount);
 };
-
 const tie = function (userCount, computerCount) {
   textElement.textContent =
     "tie tie tie tie tie tie tie tie tie tie tie tie tie tie tie tie";
