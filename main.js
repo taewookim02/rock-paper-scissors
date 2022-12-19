@@ -73,17 +73,17 @@ const playGame = function (buttonClick) {
   console.log(result);
   if (result === "user") {
     textElement.textContent =
-      "win win win win win win win win win win win win 🏆";
+      "win win win win win win win win win win win win ";
     textColorElement.setAttribute("fill", "#00FF00");
   }
   if (result === "computer") {
-    textElement.textContent = "Lose Lose Lose Lose Lose Lose Lose Lose Lose 😭";
+    textElement.textContent = "Lose Lose Lose Lose Lose Lose Lose Lose Lose ";
     textColorElement.setAttribute("fill", "#ff0000");
   }
 
   if (result === "tie") {
     textElement.textContent =
-      "Tie Tie Tie Tie Tie Tie Tie Tie Tie Tie Tie Tie Tie 🎀";
+      "tie tie tie tie tie tie tie tie tie tie tie tie tie tie tie tie";
     textColorElement.setAttribute("fill", "#F0E68C");
   }
 };
