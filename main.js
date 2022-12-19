@@ -1,5 +1,23 @@
 "use strict";
 
+const textElement = document.querySelector("#circle svg text textPath");
+const textColorElement = document.querySelector("#circle svg text");
+
+const userInputButtons = Array.from(document.querySelectorAll(".button"));
+userInputButtons.forEach((element) => {
+  element.addEventListener("click", function (e) {
+    if (e.target.dataset.type === "1") {
+      playGame("rock");
+    } else if (e.target.dataset.type === "2") {
+      playGame("paper");
+    } else if (e.target.dataset.type === "3") {
+      playGame("scissors");
+    } else {
+      console.log("Invalid input!");
+    }
+  });
+});
+
 /** returns a string, rock, paper, scissors randomly */
 const getComputerChoice = function () {
   const choices = ["rock", "paper", "scissors"];
@@ -46,15 +64,31 @@ const determineWinner = function (userChoice, computerChoice) {
 };
 
 /** plays a game of rock, paper, scissors */
-const playGame = function () {
-  const userChoice = getUserChoice("paper");
+const playGame = function (buttonClick) {
+  const userChoice = getUserChoice(buttonClick);
   const computerChoice = getComputerChoice();
   console.log("You threw: " + userChoice);
   console.log("The computer threw: " + computerChoice);
-  console.log(determineWinner(userChoice, computerChoice));
+  const result = determineWinner(userChoice, computerChoice);
+  console.log(result);
+  if (result === "user") {
+    textElement.textContent =
+      "win win win win win win win win win win win win 🏆";
+    textColorElement.setAttribute("fill", "#00FF00");
+  }
+  if (result === "computer") {
+    textElement.textContent = "Lose Lose Lose Lose Lose Lose Lose Lose Lose 😭";
+    textColorElement.setAttribute("fill", "#ff0000");
+  }
+
+  if (result === "tie") {
+    textElement.textContent =
+      "Tie Tie Tie Tie Tie Tie Tie Tie Tie Tie Tie Tie Tie 🎀";
+    textColorElement.setAttribute("fill", "#F0E68C");
+  }
 };
 
-playGame();
+// playGame();
 
 /** new function called game() which calls playGame function inside to play a 5 round game that keeps score and reports a winner or loser at the end, and get user input from prompt() */
 const game = function () {
@@ -81,4 +115,4 @@ const game = function () {
   }
 };
 
-game();
+// game();
