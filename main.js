@@ -2,21 +2,63 @@
 
 const textElement = document.querySelector("#circle svg text textPath");
 const textColorElement = document.querySelector("#circle svg text");
-
+const scores = document.querySelector(".scores");
 const userInputButtons = Array.from(document.querySelectorAll(".button"));
+const playAgainButton = document.querySelector(".play_again_button");
+const infoPTag = document.querySelector(".info");
+
+let counter = 0;
+let userCount = 0;
+let computerCount = 0;
+
 userInputButtons.forEach((element) => {
   element.addEventListener("click", function (e) {
-    if (e.target.dataset.type === "1") {
-      playGame("rock");
-    } else if (e.target.dataset.type === "2") {
-      playGame("paper");
-    } else if (e.target.dataset.type === "3") {
-      playGame("scissors");
+    if (counter < 5) {
+      if (e.target.dataset.type === "1") {
+        playGame("rock");
+      } else if (e.target.dataset.type === "2") {
+        playGame("paper");
+      } else if (e.target.dataset.type === "3") {
+        playGame("scissors");
+      } else {
+        console.log("Invalid input!");
+      }
+      counter++;
+      console.log(counter);
+      if (counter === 5) {
+        getFinalWinner();
+      }
     } else {
-      console.log("Invalid input!");
+      console.log("You have exceeded the number of plays");
     }
   });
 });
+
+playAgainButton.addEventListener("click", (e) => {
+  counter = 0;
+  userCount = 0;
+  computerCount = 0;
+  displayScore(userCount, computerCount);
+  textElement.textContent =
+    "🪨 📄 ✂️ 🪨 📄 ✂️ 🪨 📄 ✂️ 🪨 📄 ✂️ 🪨 📄 ✂️ 🪨 📄 ✂️ ";
+  infoPTag.textContent = "You have 5 tries!";
+});
+
+const getFinalWinner = function () {
+  if (userCount > computerCount) {
+    textElement.textContent =
+      "🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆 🏆";
+    infoPTag.textContent = "You beat the computer!";
+  } else if (computerCount > userCount) {
+    textElement.textContent =
+      "😭 😭 😭 😭 😭 😭 😭 😭 😭 😭 😭 😭 😭 😭 😭 😭 😭 😭";
+    infoPTag.textContent = "You lost to the computer!";
+  } else {
+    textElement.textContent =
+      "🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀 🎀";
+    infoPTag.textContent = "It's a tie!";
+  }
+};
 
 /** returns a string, rock, paper, scissors randomly */
 const getComputerChoice = function () {
@@ -63,22 +105,28 @@ const determineWinner = function (userChoice, computerChoice) {
   }
 };
 
+const displayScore = function (userCount, computerCount) {
+  scores.textContent = `You=${userCount}    Computer=${computerCount}`;
+};
+
 /** plays a game of rock, paper, scissors */
 const playGame = function (buttonClick) {
   const userChoice = getUserChoice(buttonClick);
   const computerChoice = getComputerChoice();
-  console.log("You threw: " + userChoice);
-  console.log("The computer threw: " + computerChoice);
   const result = determineWinner(userChoice, computerChoice);
-  console.log(result);
+
   if (result === "user") {
     textElement.textContent =
       "win win win win win win win win win win win win ";
     textColorElement.setAttribute("fill", "#00FF00");
+    userCount += 1;
+    displayScore(userCount, computerCount);
   }
   if (result === "computer") {
     textElement.textContent = "Lose Lose Lose Lose Lose Lose Lose Lose Lose ";
     textColorElement.setAttribute("fill", "#ff0000");
+    computerCount += 1;
+    displayScore(userCount, computerCount);
   }
 
   if (result === "tie") {
@@ -89,30 +137,19 @@ const playGame = function (buttonClick) {
 };
 
 // playGame();
-
-/** new function called game() which calls playGame function inside to play a 5 round game that keeps score and reports a winner or loser at the end, and get user input from prompt() */
-const game = function () {
-  let userScore = 0;
-  let computerScore = 0;
-  for (let i = 0; i < 5; i++) {
-    const userChoice = getUserChoice(prompt("rock, paper, or scissors?"));
-    const computerChoice = getComputerChoice();
-    console.log("You threw: " + userChoice);
-    console.log("The computer threw: " + computerChoice);
-    const winner = determineWinner(userChoice, computerChoice);
-    if (winner === "user") {
-      userScore++;
-    } else if (winner === "computer") {
-      computerScore++;
-    }
-  }
-  if (userScore > computerScore) {
-    console.log("You won!");
-  } else if (userScore < computerScore) {
-    console.log("You lost!");
-  } else {
-    console.log("It's a tie!");
-  }
+const userWin = function (userCount, computerCount) {
+  textElement.textContent = "win win win win win win win win win win win win ";
+  textColorElement.setAttribute("fill", "#00FF00");
+  displayScore(userCount, computerCount);
+};
+const computerWin = function (userCount, computerCount) {
+  textElement.textContent = "Lose Lose Lose Lose Lose Lose Lose Lose Lose ";
+  textColorElement.setAttribute("fill", "#ff0000");
+  displayScore(userCount, computerCount);
 };
 
-// game();
+const tie = function (userCount, computerCount) {
+  textElement.textContent =
+    "tie tie tie tie tie tie tie tie tie tie tie tie tie tie tie tie";
+  textColorElement.setAttribute("fill", "#F0E68C");
+};
